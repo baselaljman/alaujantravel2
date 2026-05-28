@@ -1,0 +1,7 @@
+{
+  "name": "Remix:2 العوجان للسياحة",
+  "description": "تطبيق العوجان للسياحة والسفر لحجز الرحلات الدولية وتتبع الطرود",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

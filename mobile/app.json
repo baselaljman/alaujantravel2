@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "العوجان للسياحة",
+    "slug": "al-awajan-travel",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1c1917"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.aloujan.bus",
+      "infoPlist": {
+        "UIUserInterfaceStyle": "Light"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1c1917"
+      },
+      "package": "com.aloujan.bus"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "scheme": "alawajantravel",
+    "extra": {
+      "supportsRTL": true
+    }
+  }
+}

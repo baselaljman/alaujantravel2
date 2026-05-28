@@ -1,0 +1,230 @@
+{
+  "entities": {
+    "Trip": {
+      "title": "Trip",
+      "description": "A bus trip from one city to another",
+      "type": "object",
+      "properties": {
+        "from": { "type": "string", "description": "Departure city" },
+        "to": { "type": "string", "description": "Arrival city" },
+        "date": { "type": "string", "format": "date", "description": "Departure date (YYYY-MM-DD)" },
+        "time": { "type": "string", "description": "Departure time (HH:MM)" },
+        "price": { "type": "number", "description": "Default price (usually SAR)" },
+        "priceSAR": { "type": "number", "description": "Price in Saudi Riyals" },
+        "priceSYP": { "type": "number", "description": "Price in Syrian Pounds" },
+        "busType": { "type": "string", "enum": ["VIP", "Standard"], "description": "Type of bus" },
+        "totalSeats": { "type": "integer", "description": "Total number of seats" },
+        "availableSeats": { "type": "integer", "description": "Number of seats currently available" },
+        "status": { "type": "string", "enum": ["active", "cancelled", "completed"], "description": "Current status of the trip" },
+        "tripType": { "type": "string", "enum": ["international", "umrah"], "description": "Type of trip" }
+      },
+      "required": ["from", "to", "date", "time", "price", "totalSeats"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "A seat reservation for a trip",
+      "type": "object",
+      "properties": {
+        "tripId": { "type": "string", "description": "Reference to the Trip ID" },
+        "userId": { "type": "string", "description": "Reference to the User ID" },
+        "seatNumber": { "type": "integer", "description": "The selected seat number" },
+        "passengerName": { "type": "string", "description": "Name of the passenger" },
+        "passengerPhone": { "type": "string", "description": "Phone number of the passenger" },
+        "passengerEmail": { "type": "string", "description": "Email of the passenger" },
+        "passportNumber": { "type": "string", "description": "Passport number of the passenger" },
+        "paymentMethod": { "type": "string", "enum": ["online", "later"], "description": "Payment method chosen" },
+        "bookingDate": { "type": "string", "format": "date-time", "description": "When the booking was made" },
+        "status": { "type": "string", "enum": ["confirmed", "pending", "cancelled"], "description": "Status of the booking" }
+      },
+      "required": ["tripId", "userId", "seatNumber", "passengerName", "passengerPhone"]
+    },
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "User ID" },
+        "displayName": { "type": "string", "description": "Full name" },
+        "email": { "type": "string", "format": "email", "description": "Email address" },
+        "phoneNumber": { "type": "string", "description": "Phone number" },
+        "role": { "type": "string", "enum": ["user", "admin", "driver", "staff"], "description": "User role" },
+        "permissions": { "type": "array", "items": { "type": "string" }, "description": "Staff permissions" },
+        "fcmToken": { "type": "string", "description": "Firebase Cloud Messaging token for push notifications" },
+        "deviceType": { "type": "string", "enum": ["android", "ios", "web"], "description": "Type of device the user is using" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Account creation date" }
+      },
+      "required": ["displayName", "email", "role"]
+    },
+    "Bus": {
+      "title": "Bus",
+      "description": "Bus vehicle information",
+      "type": "object",
+      "properties": {
+        "plateNumber": { "type": "string", "description": "Plate number" },
+        "busNumber": { "type": "string", "description": "Internal bus number" },
+        "model": { "type": "string", "description": "Bus model" },
+        "capacity": { "type": "integer", "description": "Total seats" },
+        "type": { "type": "string", "enum": ["VIP", "Standard"], "description": "Bus type" },
+        "status": { "type": "string", "enum": ["active", "maintenance", "inactive"], "description": "Bus status" },
+        "driverId": { "type": "string", "description": "Assigned driver ID" }
+      },
+      "required": ["plateNumber", "busNumber", "capacity", "type", "status"]
+    },
+    "City": {
+      "title": "City",
+      "description": "City information for travel routes",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Name of the city" },
+        "country": { "type": "string", "description": "Country name or ID" }
+      },
+      "required": ["name", "country"]
+    },
+    "Country": {
+      "title": "Country",
+      "description": "Country information for travel routes",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Name of the country" }
+      },
+      "required": ["name"]
+    },
+    "Banner": {
+      "title": "Banner",
+      "description": "Dynamic banner image for the home page",
+      "type": "object",
+      "properties": {
+        "imageUrl": { "type": "string", "description": "URL of the banner image" },
+        "link": { "type": "string", "description": "Optional link when clicking the banner" },
+        "order": { "type": "integer", "description": "Display order" },
+        "active": { "type": "boolean", "description": "Whether the banner is active" }
+      },
+      "required": ["imageUrl", "order", "active"]
+    },
+    "Parcel": {
+      "title": "Parcel",
+      "description": "A shipment package sent between cities",
+      "type": "object",
+      "properties": {
+        "senderName": { "type": "string", "description": "Name of the sender" },
+        "senderPhone": { "type": "string", "description": "Phone number of the sender" },
+        "receiverName": { "type": "string", "description": "Name of the receiver" },
+        "receiverPhone": { "type": "string", "description": "Phone number of the receiver" },
+        "from": { "type": "string", "description": "Origin city" },
+        "to": { "type": "string", "description": "Destination city" },
+        "tripId": { "type": "string", "description": "Linked trip ID" },
+        "trackingNumber": { "type": "string", "description": "Tracking number (matches trip)" },
+        "note": { "type": "string", "description": "Additional notes" },
+        "price": { "type": "number", "description": "Shipping cost" },
+        "currency": { "type": "string", "enum": ["SAR", "SYP"], "description": "Currency of the shipping cost" },
+        "status": { "type": "string", "enum": ["pending", "shipped", "delivered"], "description": "Current status" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" }
+      },
+      "required": ["senderName", "senderPhone", "receiverName", "receiverPhone", "from", "to", "tripId", "trackingNumber", "price", "status"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "A notification sent to users",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Notification title" },
+        "body": { "type": "string", "description": "Notification body" },
+        "type": { "type": "string", "enum": ["all", "drivers", "users", "specific"], "description": "Target audience" },
+        "targetId": { "type": "string", "description": "Target user ID (if type is specific)" },
+        "deliveryMethod": { "type": "string", "enum": ["push", "in-app", "both"], "description": "How the notification was delivered" },
+        "imageUrl": { "type": "string", "description": "Optional image URL for the notification" },
+        "stats": {
+          "type": "object",
+          "properties": {
+            "total": { "type": "integer" },
+            "android": { "type": "integer" },
+            "ios": { "type": "integer" },
+            "web": { "type": "integer" }
+          }
+        },
+        "sentAt": { "type": "string", "format": "date-time", "description": "When the notification was sent" },
+        "sentBy": { "type": "string", "description": "Admin ID who sent the notification" }
+      },
+      "required": ["title", "body", "type", "sentAt", "sentBy"]
+    },
+    "SmsOtp": {
+      "title": "SMS OTP",
+      "description": "Temporary storage for SMS verification codes",
+      "type": "object",
+      "properties": {
+        "code": { "type": "string", "description": "The 6-digit verification code" },
+        "expiresAt": { "type": "string", "format": "date-time", "description": "Expiration timestamp" }
+      },
+      "required": ["code", "expiresAt"]
+    },
+    "Device": {
+      "title": "Device",
+      "description": "Information about an Android device running the WebView app",
+      "type": "object",
+      "properties": {
+        "appName": { "type": "string", "description": "The name of the app package" },
+        "lastSeen": { "type": "string", "format": "date-time", "description": "Last time device opened the app" },
+        "model": { "type": "string", "description": "Device hardware model" },
+        "osVersion": { "type": "string", "description": "Device Android version" },
+        "platform": { "type": "string", "description": "Device platform (android)" },
+        "token": { "type": "string", "description": "FCM device registration token" },
+        "userId": { "type": "string", "description": "Linked user uid" },
+        "userEmail": { "type": "string", "description": "Linked user email" },
+        "userPhone": { "type": "string", "description": "Linked user phone" },
+        "displayName": { "type": "string", "description": "Linked user full name" },
+        "linkedAt": { "type": "string", "format": "date-time", "description": "Timestamp when device was linked to user" }
+      },
+      "required": ["token", "model", "platform"]
+    }
+  },
+  "firestore": {
+    "/devices": {
+      "schema": "Device",
+      "description": "Collection of registered mobile devices for sending push notifications"
+    },
+    "/trips": {
+      "schema": "Trip",
+      "description": "Collection of all available bus trips"
+    },
+    "/bookings": {
+      "schema": "Booking",
+      "description": "Collection of all seat reservations"
+    },
+    "/users": {
+      "schema": "User",
+      "description": "Collection of user profiles"
+    },
+    "/buses": {
+      "schema": "Bus",
+      "description": "Collection of bus vehicles"
+    },
+    "/cities": {
+      "schema": "City",
+      "description": "Collection of cities for travel routes"
+    },
+    "/countries": {
+      "schema": "Country",
+      "description": "Collection of countries for travel routes"
+    },
+    "/metadata": {
+      "schema": "object",
+      "description": "System metadata and counters"
+    },
+    "/banners": {
+      "schema": "Banner",
+      "description": "Collection of home page banner images"
+    },
+    "/parcels": {
+      "schema": "Parcel",
+      "description": "Collection of all shipments"
+    },
+    "/notifications": {
+      "schema": "Notification",
+      "description": "History of sent notifications"
+    },
+    "/sms_otps": {
+      "schema": "SmsOtp",
+      "description": "Temporary storage for phone verification codes"
+    }
+  }
+}
